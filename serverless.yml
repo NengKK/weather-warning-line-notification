@@ -1,0 +1,21 @@
+service: weather-warning-line-notification
+
+plugins:
+    - serverless-offline
+    - serverless-webpack
+
+provider:
+    name: aws
+    runtime: nodejs12.x
+    region: ap-southeast-1
+    role: arn:aws:iam::${env:AWS_ACCOUNT_ID}:role/ApplicationRoleFor_weather-warning-line-notification
+    environment:
+        UID: ${env:UID}
+        UKEY: ${env:UKEY}
+    versionFunctions: false
+
+functions:
+    get-weather-warning-news-scheduler:
+      handler: src/lambda/get-weather-warning-news.getWeatherWarningNews
+      events:
+          - schedule: rate(30 minutes)
