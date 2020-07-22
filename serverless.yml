@@ -15,7 +15,23 @@ provider:
     versionFunctions: false
 
 functions:
-    get-weather-warning-news-scheduler:
-      handler: src/lambda/get-weather-warning-news.getWeatherWarningNews
-      events:
-          - schedule: rate(30 minutes)
+    get-news-scheduler:
+        handler: src/lambda/get-weather-warning-news.getWeatherWarningNews
+        events:
+            - schedule: rate(30 minutes)
+
+resources:
+    Resources:
+        WeatherWarningQueue:
+            Type: AWS::SQS::Queue
+            Properties:
+                QueueName: 'weather-warning-line-notification-queue'
+                VisibilityTimeout: 120
+                RedrivePolicy:
+                    deadLetterTargetArn:
+                        Fn::GetAtt: [WeatherWarningDeadLetterQueue, Arn]
+                    maxReceiveCount: 3
+        WeatherWarningDeadLetterQueue:
+            Type: AWS::SQS::Queue
+            Properties:
+                QueueName: 'weather-warning-line-notification-dead-letter-queue'

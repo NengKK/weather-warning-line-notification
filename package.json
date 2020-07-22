@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Thailand weather warning Line notification, Schedule fetch data from tmd.go.th and send to users who subscribe to Line channel",
   "scripts": {
+    "deploy": "make deploy",
     "precommit": "gts fix && gts clean",
     "prepare": "npm run compile",
     "snyk-test": "snyk test",
@@ -49,6 +50,7 @@
   "dependencies": {
     "aws-sdk": "^2.709.0",
     "aws-signed-fetch": "^1.0.1",
+    "axios": "^0.19.2",
     "node-fetch": "^2.6.0"
   },
   "jest": {
