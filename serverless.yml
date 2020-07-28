@@ -1,0 +1,55 @@
+service: weather-warning-line-notification
+
+plugins:
+    - serverless-offline
+    - serverless-webpack
+
+provider:
+    name: aws
+    runtime: nodejs12.x
+    region: ap-southeast-1
+    role: arn:aws:iam::${env:AWS_ACCOUNT_ID}:role/ApplicationRoleFor_weather-warning-line-notification
+    environment:
+        LINE_NOTIFY_ACCESS_TOKEN: ${env:LINE_NOTIFY_ACCESS_TOKEN}
+        LINE_NOTIFY_URL: ${env:LINE_NOTIFY_URL}
+        UID: ${env:UID}
+        UKEY: ${env:UKEY}
+    versionFunctions: false
+
+custom:
+    webpack:
+        webpackConfig: 'webpack.config.js'
+        includeModules: true
+        packager: 'npm'
+        createRoute53Record: false
+
+functions:
+    get-news-scheduler:
+        handler: src/lambda/get-weather-warning-news.getWeatherWarningNews
+        events:
+            - schedule: rate(30 minutes)
+    send-notify:
+        handler: src/lambda/send-notification.sendNotification
+        events:
+            - sqs:
+                  batchSize: 1
+                  arn:
+                      Fn::GetAtt:
+                          - WeatherWarningQueue
+                          - Arn
+
+resources:
+    Resources:
+        WeatherWarningQueue:
+            Type: AWS::SQS::Queue
+            Properties:
+                QueueName: 'weather-warning-line-notification-queue'
+                VisibilityTimeout: 120
+                RedrivePolicy:
+                    deadLetterTargetArn:
+                        Fn::GetAtt: [WeatherWarningDeadLetterQueue, Arn]
+                    maxReceiveCount: 3
+        WeatherWarningDeadLetterQueue:
+            Type: AWS::SQS::Queue
+            Properties:
+                QueueName: 'weather-warning-line-notification-dead-letter-queue'

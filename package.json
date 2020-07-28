@@ -1,0 +1,78 @@
+{
+  "name": "weather-warning-line-notification",
+  "version": "1.0.0",
+  "description": "Thailand weather warning Line notification, Schedule fetch data from tmd.go.th and send to users who subscribe to Line channel",
+  "scripts": {
+    "deploy": "make deploy",
+    "precommit": "gts fix && gts clean",
+    "prepare": "npm run compile",
+    "snyk-test": "snyk test",
+    "snyk-wizard": "snyk wizard",
+    "start": "env-cmd serverless invoke local --stage dev",
+    "test": "jest",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "pretest": "npm run compile",
+    "posttest": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NengKK/weather-warning-line-notification.git"
+  },
+  "author": "Kittisak Khamdaeng",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/NengKK/weather-warning-line-notification/issues"
+  },
+  "homepage": "https://github.com/NengKK/weather-warning-line-notification#readme",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.57",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^13.11.1",
+    "env-cmd": "^10.1.0",
+    "gts": "^2.0.2",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "serverless": "^1.59.3",
+    "serverless-offline": "^5.12.1",
+    "serverless-webpack": "^5.3.1",
+    "snyk": "^1.359.1",
+    "ts-jest": "^26.1.1",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "qs": "^6.9.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.ts": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "roots": [
+      "<rootDir>/test"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/**.spec.ts"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    }
+  }
+}
