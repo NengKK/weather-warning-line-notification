@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const slsw = require('serverless-webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
@@ -25,6 +26,7 @@ const config = {
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
   },
+  mode: 'development'
 };
 
 module.exports = config;
