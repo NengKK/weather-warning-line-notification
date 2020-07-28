@@ -10,6 +10,7 @@ provider:
     region: ap-southeast-1
     role: arn:aws:iam::${env:AWS_ACCOUNT_ID}:role/ApplicationRoleFor_weather-warning-line-notification
     environment:
+        DYNAMO_DB_TABLE_NAME: ${env:DYNAMO_DB_TABLE_NAME}
         LINE_NOTIFY_ACCESS_TOKEN: ${env:LINE_NOTIFY_ACCESS_TOKEN}
         LINE_NOTIFY_URL: ${env:LINE_NOTIFY_URL}
         UID: ${env:UID}
