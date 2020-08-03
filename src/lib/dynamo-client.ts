@@ -1,5 +1,6 @@
 import {DynamoDB} from 'aws-sdk';
 import { DYNAMO_DB_TABLE_NAME } from './constant';
+import { IWeatherWarningNews } from '../model/IWeatherWarningNews';
 
 export async function getDataByAnnounceDate(announceDate: string): Promise<DynamoDB.ItemList> {
     const params = {
@@ -26,12 +27,15 @@ export async function getDataByAnnounceDate(announceDate: string): Promise<Dynam
     });
 }
 
-export async function putAnnounceDate(announceDate: string): Promise<void> {
+export async function putNewsLog(news: IWeatherWarningNews): Promise<void> {
     const params = {
         TableName: DYNAMO_DB_TABLE_NAME,
         Item: {
             "AnnounceDateTime": {
-                S: announceDate
+                S: news.WarningNews.AnnounceDateTime
+            },
+            "DocumentFile": {
+                S: news.WarningNews.DocumentFile
             }
         }
     };
